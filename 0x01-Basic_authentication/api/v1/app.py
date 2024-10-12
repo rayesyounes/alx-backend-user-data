@@ -8,7 +8,6 @@ from flask import Flask, jsonify, abort, request
 from flask_cors import CORS, cross_origin
 import os
 
-
 app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
@@ -18,6 +17,12 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 def unauthorized(error) -> str:
     """doc doc Unauthorized handler"""
     return jsonify({"error": "Unauthorized"}), 401
+
+
+@app.errorhandler(403)
+def forbidden(error):
+    """Error handler for 403 Forbidden"""
+    return jsonify({"error": "Forbidden"}), 403
 
 
 @app.errorhandler(404)
